@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Handling Demo - Legal Contract RAG</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .demo-section {
+            margin-bottom: 40px;
+        }
+        .demo-button {
+            margin: 10px 5px;
+            padding: 12px 24px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .demo-button:hover {
+            opacity: 0.9;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #1e293b;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .info-box {
+            background: #f1f5f9;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Error Handling Demo</h1>
+    
+    <div class="info-box">
+        <strong>📝 About This Demo</strong><br>
+        This page demonstrates the enhanced error handling system. Click any button below to see how different error types are displayed with specific icons, colors, and actionable solutions.
+    </div>
+
+    <div class="demo-section">
+        <h2>Error Type Demonstrations</h2>
+        
+        <button class="demo-button" onclick="showApiKeyError()">
+            🔑 Show API Key Error
+        </button>
+        
+        <button class="demo-button" onclick="showQuotaError()">
+            ⏳ Show Quota Error
+        </button>
+        
+        <button class="demo-button" onclick="showNetworkError()">
+            🌐 Show Network Error
+        </button>
+        
+        <button class="demo-button" onclick="showTimeoutError()">
+            ⏱️ Show Timeout Error
+        </button>
+        
+        <button class="demo-button" onclick="showNoDataError()">
+            📄 Show No Data Error
+        </button>
+        
+        <button class="demo-button" onclick="showGeneralError()">
+            ⚠️ Show General Error
+        </button>
+    </div>
+
+    <section id="answerSection" class="section hidden">
+        <h2>Error Display</h2>
+        <div id="answerContent" class="answer-box"></div>
+        <div id="sourcesContent" class="hidden">
+            <h3>Sources</h3>
+            <div id="sourcesList" class="sources-list"></div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // Demo functions to show different error types
+        
+        function showApiKeyError() {
+            displayError(
+                "Invalid API key provided. API key not valid. Please pass a valid API key.",
+                'api_key',
+                {
+                    status: 401,
+                    statusText: "Unauthorized",
+                    endpoint: "/api/query",
+                    timestamp: new Date().toISOString()
+                }
+            );
+        }
+        
+        function showQuotaError() {
+            displayError(
+                "⚠️ API quota exceeded. Please try again later or upgrade your API plan. Visit: https://ai.google.dev/gemini-api/docs/rate-limits",
+                'quota',
+                {
+                    status: 429,
+                    statusText: "Too Many Requests",
+                    endpoint: "/api/query",
+                    currentModel: "gemini-2.5-flash-lite",
+                    dailyLimit: "20 requests/day",
+                    timestamp: new Date().toISOString()
+                }
+            );
+        }
+        
+        function showNetworkError() {
+            displayError(
+                "Cannot connect to the server. Please check if the server is running.",
+                'network',
+                {
+                    errorName: "TypeError",
+                    errorMessage: "Failed to fetch",
+                    possibleCauses: ["Server not running", "Port 8000 blocked", "Network disconnected"]
+                }
+            );
+        }
+        
+        function showTimeoutError() {
+            displayError(
+                "Request timeout: The server took too long to respond. Try asking a simpler question or reducing top_k.",
+                'timeout',
+                {
+                    status: 504,
+                    statusText: "Gateway Timeout",
+                    endpoint: "/api/query",
+                    requestDuration: "60000ms",
+                    suggestion: "Reduce complexity or lower top_k value"
+                }
+            );
+        }
+        
+        function showNoDataError() {
+            displayError(
+                "No relevant information found in the uploaded documents. Try rephrasing your question or uploading more contracts.",
+                'no_data',
+                {
+                    status: 404,
+                    statusText: "Not Found",
+                    documentsIndexed: 0,
+                    chunksAvailable: 0,
+                    suggestion: "Upload PDF contracts first"
+                }
+            );
+        }
+        
+        function showGeneralError() {
+            displayError(
+                "An unexpected error occurred: ValueError: Expected string but received null value in processing chain.",
+                'general',
+                {
+                    status: 500,
+                    statusText: "Internal Server Error",
+                    errorType: "ValueError",
+                    component: "QA Chain",
+                    timestamp: new Date().toISOString()
+                }
+            );
+        }
+    </script>
+</body>
+</html>

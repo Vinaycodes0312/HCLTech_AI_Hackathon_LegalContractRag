@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bussiness Contract Search System</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>⚖️ Bussiness Contract Search System</h1>
+                <p class="subtitle">AI-Powered Contract Analysis</p>
+            </div>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Contracts:</span>
+                    <span id="contractCount" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Documents in Index:</span>
+                    <span id="docCount" class="stat-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Panel: Upload & Contracts -->
+            <aside class="sidebar">
+                <div class="card">
+                    <h2>📄 Upload Contracts</h2>
+                    <div class="upload-section">
+                        <input type="file" id="fileInput" accept=".pdf" class="file-input" multiple>
+                        <label for="fileInput" class="file-label">
+                            <span id="fileLabel">Choose PDF Files (Multiple)</span>
+                        </label>
+                        <div id="selectedFiles" class="selected-files"></div>
+                        <button id="uploadBtn" class="btn btn-primary">Upload & Process All</button>
+                        <div id="uploadStatus" class="status-message"></div>
+                        <div id="uploadProgress" class="upload-progress"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>📋 Uploaded Contracts</h2>
+                    <div id="contractsList" class="contracts-list">
+                        <p class="empty-message">No contracts uploaded yet</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>🛠️ Actions</h2>
+                    <button id="refreshBtn" class="btn btn-secondary btn-block">Refresh Stats</button>
+                    <button id="clearBtn" class="btn btn-danger btn-block">Clear Index</button>
+                </div>
+            </aside>
+
+            <!-- Right Panel: Q&A Interface -->
+            <main class="main-panel">
+                <div class="card query-card">
+                    <h2>💬 Ask Questions</h2>
+                    
+                    <!-- Query Input -->
+                    <div class="query-section">
+                        <textarea 
+                            id="questionInput" 
+                            class="question-input" 
+                            placeholder="Ask a question about your contracts...
+Examples:
+- What are the payment terms?
+- When does the contract terminate?
+- What are the liability clauses?"
+                            rows="4"
+                        ></textarea>
+                        
+                        <div class="query-controls">
+                            <div class="top-k-control">
+                                <label for="topK">Context Chunks:</label>
+                                <input type="number" id="topK" value="5" min="1" max="10">
+                            </div>
+                            <button id="askBtn" class="btn btn-primary btn-large">
+                                <span class="btn-text">Ask Question</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sample Questions -->
+                    <div class="sample-questions">
+                        <p class="sample-label">Sample Questions:</p>
+                        <button class="sample-btn" data-question="What are the payment terms in the contracts?">Payment Terms</button>
+                        <button class="sample-btn" data-question="What are the termination conditions?">Termination</button>
+                        <button class="sample-btn" data-question="What are the liability provisions?">Liability</button>
+                        <button class="sample-btn" data-question="What warranties are provided in the contracts?">Warranties</button>
+                    </div>
+                </div>
+
+                <!-- Answer Display -->
+                <div id="answerSection" class="card answer-card hidden">
+                    <h2>📝 Answer</h2>
+                    <div id="answerContent" class="answer-content"></div>
+                    <div id="sourcesContent" class="sources-content hidden">
+                        <h3>📚 Sources</h3>
+                        <div id="sourcesList"></div>
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loadingIndicator" class="loading-indicator hidden">
+                    <div class="spinner"></div>
+                    <p id="loadingMessage">Processing your question...</p>
+                    <p id="loadingSubtext" style="font-size: 0.85em; color: #64748b; margin-top: 8px;">This may take 10-30 seconds</p>
+                </div>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with ❤️ GenZ Masters, FAISS, and FastAPI | 
+                <a href="/docs" target="_blank">API Docs</a> | 
+                <!-- <a href="https://github.com" target="_blank">GitHub</a> -->
+            </p>
+        </footer>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>
